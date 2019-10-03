@@ -1,3 +1,4 @@
+import java.net.InterfaceAddress;
 import java.util.Formatter;
 
 /**
@@ -81,8 +82,21 @@ public class IntList {
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+
+
+        if (A == null) {
+            return B;
+        }
+        //iterative version
+        IntList res= A;
+        while(res.rest !=null){
+            res = res.rest;
+        }
+        res.rest = B;
+        return A;
+
+
+
     }
 
     /**
@@ -90,8 +104,33 @@ public class IntList {
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+
+        if (A==null) {
+            return B;
+        }
+        //iterative version
+        IntList res= A.rest;
+        IntList retIntArr = new IntList(A.first, null);
+        IntList p_n = retIntArr;
+        while(res !=null){
+            p_n.rest = new IntList(res.first, null);
+            p_n = p_n.rest;
+            res = res.rest;
+        }
+        //p_n points to the last node of p_n
+        res = B;
+        while(res!=null){
+            p_n.rest = new IntList(res.first, null);
+            p_n = p_n.rest;
+            res=res.rest;
+        }
+        return retIntArr;
+
+
+        /*
+        //recursive version
+        return new IntList(A.first, catenate(A.rest, B));
+         */
     }
 
 
