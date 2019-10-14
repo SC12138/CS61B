@@ -1,13 +1,13 @@
 import java.util.Deque;
 
-public class LinkedListDeque<typeOfItem> {
+public class LinkedListDeque<T> {
 
     /** class of Deque node*/
     private class DequeNode{
-        private typeOfItem item;
+        private T item;
         private DequeNode next;
         private DequeNode prev;
-        public DequeNode(typeOfItem i, DequeNode r, DequeNode p){
+        public DequeNode(T i, DequeNode r, DequeNode p){
             item = i;
             next = r;
             prev = p;
@@ -30,14 +30,14 @@ public class LinkedListDeque<typeOfItem> {
         size = 0;
     }
 
-    public void addFirst(typeOfItem item){
+    public void addFirst(T item){
         DequeNode firstNode =  new DequeNode(item, sentinel.next, sentinel);
         sentinel.next.prev = firstNode;
         sentinel.next = firstNode;
         size += 1;
     }
 
-    public void addLast(typeOfItem item){
+    public void addLast(T item){
         DequeNode lastNode = new DequeNode(item, sentinel, sentinel.prev);
         sentinel.prev.next = lastNode;
         sentinel.prev = lastNode;
@@ -66,24 +66,24 @@ public class LinkedListDeque<typeOfItem> {
         System.out.println();
     }
 
-    public typeOfItem removeFirst(){
+    public T removeFirst(){
         if (size == 0){
             System.out.println("The list is empty!");
             return null;
         }
-        typeOfItem itemToMove = sentinel.next.item;
+        T itemToMove = sentinel.next.item;
         sentinel.next.next.prev = sentinel;
         sentinel.next = sentinel.next.next; //By then there should be no reference to the first node
         size-=1;
         return itemToMove;
     }
 
-    public typeOfItem removeLast(){
+    public T removeLast(){
         if (size == 0){
             System.out.println("The list is empty!");
             return null;
         }
-        typeOfItem itemToMove = sentinel.next.item;
+        T itemToMove = sentinel.prev.item;
         sentinel.prev.prev.next = sentinel;
         sentinel.prev = sentinel.prev.prev;
         size-=1;
@@ -91,7 +91,7 @@ public class LinkedListDeque<typeOfItem> {
 
     }
 
-    public typeOfItem get(int index){
+    public T get(int index){
         if (size==0){
             System.out.println("The list is empty!");
         }
@@ -105,7 +105,7 @@ public class LinkedListDeque<typeOfItem> {
         return nodeToGet.item;
     }
 
-    private typeOfItem getRecursiveHelp(DequeNode d, int i){
+    private T getRecursiveHelp(DequeNode d, int i){
         if (i==0){
             return d.item;
         }
@@ -115,7 +115,7 @@ public class LinkedListDeque<typeOfItem> {
         }
     }
 
-    public typeOfItem getRecursive(int index){
+    public T getRecursive(int index){
         if (size==0){
             System.out.println("The list is empty!");
         }

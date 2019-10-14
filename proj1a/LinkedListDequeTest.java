@@ -1,3 +1,8 @@
+import jdk.jfr.StackTrace;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 /** Performs some basic linked list tests. */
 public class LinkedListDequeTest {
 	
@@ -89,6 +94,22 @@ public class LinkedListDequeTest {
 		printTestStatus(passed);
 
 	}
+	@Test
+	public void testAG(){
+
+		LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+		lld1.addFirst(0);
+		lld1.addFirst(1);
+		Integer returnValue = lld1.removeLast();
+		Integer exp = new Integer(0);
+		assertEquals(exp, returnValue);
+
+
+
+
+
+	}
+
 
 	public static void main(String[] args) {
 		System.out.println("Running tests.\n");

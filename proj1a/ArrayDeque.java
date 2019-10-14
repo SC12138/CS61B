@@ -1,10 +1,10 @@
 import java.util.Objects;
 
-public class ArrayDeque<typeOfList> {
+public class ArrayDeque<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
-    private typeOfList[] items;
+    private T[] items;
     private int minArrayLength = 8;
 
     public ArrayDeque(){
@@ -12,7 +12,7 @@ public class ArrayDeque<typeOfList> {
         size = 0;
         nextLast = 0;
         //Initiate a array of length 8
-        items = (typeOfList[]) new Object[minArrayLength];
+        items = (T[]) new Object[minArrayLength];
         nextFirst = items.length-1;
     }
 
@@ -22,7 +22,7 @@ public class ArrayDeque<typeOfList> {
     }
 
     private void resize(int capacity){
-        typeOfList[] newItems = (typeOfList[]) new Object[capacity];
+        T[] newItems = (T[]) new Object[capacity];
 
         int firstIndex = (nextFirst+1)%items.length;
         int lastIndex = (nextLast-1)%items.length;
@@ -46,7 +46,7 @@ public class ArrayDeque<typeOfList> {
         items = newItems;
     }
 
-    public void addFirst(typeOfList item){
+    public void addFirst(T item){
         items[nextFirst] = item;
         //keep nextFirst in range(0, length-1)
         nextFirst = (--nextFirst)%(items.length); //need to verify
@@ -57,7 +57,7 @@ public class ArrayDeque<typeOfList> {
         }
     }
 
-    public void addLast(typeOfList item){
+    public void addLast(T item){
         items[nextLast] = item;
         //keep nextLast in range(0, length-1)
         nextLast = (++nextLast)%(items.length);
@@ -90,13 +90,13 @@ public class ArrayDeque<typeOfList> {
     }
 
 
-    public typeOfList removeFirst(){
+    public T removeFirst(){
         if (size==0){
             System.out.println("The list is empty");
             return null;
         }
         int firstIndex = (nextFirst+1)%items.length;
-        typeOfList returnValue = items[firstIndex];
+        T returnValue = items[firstIndex];
         //Null out unnecessary value
         items[firstIndex] = null;
         nextFirst = firstIndex;
@@ -109,14 +109,14 @@ public class ArrayDeque<typeOfList> {
     }
 
 
-    public typeOfList removeLast(){
+    public T removeLast(){
         if (size==0){
             System.out.println("The list is empty");
             return null;
         }
         int lastIndex = (nextLast-1)%items.length;
         lastIndex = modPos(lastIndex);
-        typeOfList returnValue = items[lastIndex];
+        T returnValue = items[lastIndex];
         nextLast = lastIndex;
         //Null out unnecessary value
         items[lastIndex] = null;
@@ -129,7 +129,7 @@ public class ArrayDeque<typeOfList> {
     }
 
 
-    public typeOfList get(int index){
+    public T get(int index){
         if (index<size){
             int realIndex = (nextFirst+1+index)%(items.length);
             return items[realIndex];
