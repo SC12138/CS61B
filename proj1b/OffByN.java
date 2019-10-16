@@ -1,5 +1,5 @@
 public class OffByN implements CharacterComparator{
-    int charDis;
+    private int charDis;
 
     //construct method's signature does not include "static" and "void"
     public OffByN(int dis){

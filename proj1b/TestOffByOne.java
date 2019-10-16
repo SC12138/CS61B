@@ -14,8 +14,16 @@ public class TestOffByOne {
     public void testOffOneNorm(){
         assertTrue(offByOne.equalChars('a', 'b'));
         assertTrue(offByOne.equalChars('r', 'q'));
+
         assertFalse(offByOne.equalChars('a', 'c'));
         assertFalse(offByOne.equalChars('s', 'c'));
+
+        assertTrue(offByOne.equalChars('&', '%'));
+        assertFalse(offByOne.equalChars('#', '%'));
+        assertFalse(offByOne.equalChars('A', 'a'));
+        assertFalse(offByOne.equalChars('*', 'a'));
+
+
     }
 
 }
