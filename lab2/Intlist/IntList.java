@@ -108,6 +108,7 @@ public class IntList {
         if (A==null) {
             return B;
         }
+        /*
         //iterative version
         IntList res= A.rest;
         IntList retIntArr = new IntList(A.first, null);
@@ -127,10 +128,12 @@ public class IntList {
         return retIntArr;
 
 
-        /*
+         */
+
+
         //recursive version
         return new IntList(A.first, catenate(A.rest, B));
-         */
+
     }
 
 
