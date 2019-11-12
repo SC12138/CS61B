@@ -22,7 +22,7 @@ public class TestArrayDequeGold {
         ArrayDequeSolution<Integer> solutionArray = new ArrayDequeSolution<>();
         String calls = new String();
         int[] frequencyArray = getFrequencyArray(numOfChoices); //[1,1,1,1]
-        System.out.println(frequencyArray);
+        //System.out.println(frequencyArray);
 
         Integer i=0;
         //for (i=0; i<100; i++){
@@ -42,6 +42,7 @@ public class TestArrayDequeGold {
                     studentArray.addLast(i);
                     solutionArray.addLast(i);
                     calls+="addLast("+i.toString()+")\n";
+
                     break;
                 case 2://removeFirst
                     if (!studentArray.isEmpty() && !solutionArray.isEmpty()){
@@ -49,6 +50,8 @@ public class TestArrayDequeGold {
                         removeFromSolution = solutionArray.removeFirst();
                         remove=true;
                         calls+="removeFirst()\n";
+                        //calls+= removeFromSolution.toString()+" ";
+                        //calls+= removeFromStudent.toString()+"\n";
                     }
                     break;
                 case 3://removeLast
@@ -57,10 +60,15 @@ public class TestArrayDequeGold {
                         removeFromSolution = solutionArray.removeLast();
                         remove=true;
                         calls+="removeLast()\n";
+                        //calls+= removeFromSolution.toString()+" ";
+                        //calls+= removeFromStudent.toString()+"\n";
                     }
                     break;
             }
             if((tempChoice==2 || tempChoice==3) && remove){ //remove action
+                //System.out.print(removeFromSolution);
+                //System.out.print(removeFromStudent);
+
                 assertEquals(calls, removeFromSolution, removeFromStudent);
             }
             i+=1;
