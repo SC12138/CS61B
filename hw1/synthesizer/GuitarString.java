@@ -59,7 +59,5 @@ public class GuitarString {
         return buffer.peek();
     }
 
-    public static void main(String[] args){
 
-    }
 }
