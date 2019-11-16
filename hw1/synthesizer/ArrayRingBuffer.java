@@ -34,6 +34,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 
     private class ArrayBufferIterator implements Iterator{
         private int numLeft = fillCount; //index of next element to give ou
+        private int i = first;
         @Override
         public boolean hasNext(){
             if(numLeft==0){
@@ -44,20 +45,20 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 
         @Override
         public T next(){
-
+            /*
             T returnItem = dequeue();
             enqueue(returnItem);
             numLeft-=1;
             return returnItem;
-             /*
+            */
             T returnItem = rb[i];
             i = (i+1)%capacity;
+            numLeft -= 1;
             return returnItem;
 
-              */
         }
     }
-
+    /*
     @Override
     public int capacity(){
         return this.capacity;
@@ -67,6 +68,8 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     public int fillCount(){
         return this.fillCount;
     }
+
+     */
 
     /**
      * Adds x to the end of the ring buffer. If there is no room, then

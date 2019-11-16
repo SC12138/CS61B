@@ -15,7 +15,10 @@ public class TestArrayRingBuffer {
         arb.enqueue(6.0);
         arb.enqueue(128.0);
         for(Double k:arb){
-            System.out.println(k);
+            for (Double j:arb){
+                System.out.println(j);
+            }
+
         }
         assertEquals(true, arb.isFull());
         assertEquals(3, arb.fillCount());
