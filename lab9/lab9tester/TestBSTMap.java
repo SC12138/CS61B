@@ -86,6 +86,49 @@ public class TestBSTMap {
         assertTrue(b.get("hi") != null);
     }
 
+    @Test
+    public void sanityRemoveTest() {
+        BSTMap<String, Integer> b = new BSTMap<String, Integer>();
+
+        b.put("hi" + 5, 1 + 5);
+        b.put("hi" + 3, 1 + 3);
+        b.put("hi" + 2, 1 + 2);
+        b.put("hi" + 4, 1 + 4);
+        b.put("hi" + 6, 1 + 6);
+
+        assertEquals(5, b.size());
+        int sizeMax = b.size();
+        for (int i = 3; i>2; i--){
+            Integer remVal = b.remove("hi"+i);
+            assertEquals(1 + i, (int)remVal);
+            remVal = b.get("hi"+i);
+            assertEquals(null, remVal);
+            assertEquals(false, b.containsKey("hi"+i));
+        }
+        assertEquals(4, b.size());
+
+        b.clear();
+        for (int i = 0; i < 455; i++) {
+            b.put("hi" + i, 1 + i);
+            //make sure put is working via containsKey and get
+            assertTrue(null != b.get("hi" + i));
+            assertTrue(b.get("hi" + i).equals(1 + i));
+            assertTrue(b.containsKey("hi" + i));
+        }
+        assertEquals(455, b.size());
+        sizeMax = b.size();
+        for (int i = 233; i>100; i--){
+            Integer remVal = b.remove("hi"+i);
+            assertEquals(1 + i, (int)remVal);
+            remVal = b.get("hi"+i);
+            assertEquals(null, remVal);
+            assertEquals(false, b.containsKey("hi"+i));
+        }
+        assertEquals(322, b.size());
+
+
+    }
+
     public static void main(String[] args) {
         jh61b.junit.TestRunner.runTests(TestBSTMap.class);
     }
