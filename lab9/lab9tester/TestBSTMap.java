@@ -118,7 +118,7 @@ public class TestBSTMap {
         assertEquals(455, b.size());
         sizeMax = b.size();
         for (int i = 233; i>100; i--){
-            Integer remVal = b.remove("hi"+i);
+            Integer remVal = b.remove("hi"+i, 1+i);
             assertEquals(1 + i, (int)remVal);
             remVal = b.get("hi"+i);
             assertEquals(null, remVal);

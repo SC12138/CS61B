@@ -124,7 +124,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return this.keySet().iterator();
     }
 
     private void resize(int capacity){

@@ -139,18 +139,20 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         return null;
     }
 
-    private Node removeHelper(K key, Node p){
+    private Node removeHelper(K key, Node p, V value){
         // no match
         if (p == null){
             return null;
         }
         if (key.compareTo(p.key)<0){ // fall to left subtree
-            p.left = removeHelper(key, p.left);
+            p.left = removeHelper(key, p.left, value);
         }
         else if (key.compareTo(p.key)>0){ // fall to right subtree
-            p.right = removeHelper(key, p.right);
+            p.right = removeHelper(key, p.right, value);
         }
-        else{ //match
+        else{ //key match
+            if (value != null && !p.value.equals(value)){ return p; } // value not match
+
             if (p.left == null){
                 return p.right;} // if left subtree is null, return left subtree. p's parent would point to p's one child as subtree regardless left or right
             if (p.right == null){
@@ -160,7 +162,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
             Node successor = findMin(p.right);
             Node oriNodeToDelete = p;
             // delete the original successor
-            removeHelper(successor.key, p.right); //TODO test if same as deleteMin()
+            removeHelper(successor.key, p.right, value); //TODO test if same as deleteMin()
             p = successor; //Replace p with successor. But the origin Node still holds its right/left subtrees which need to be transferred to new p(the successor)
             p.left = oriNodeToDelete.left;
             p.right = oriNodeToDelete.right;
@@ -174,11 +176,12 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      */
     @Override
     public V remove(K key) {
+        if (key == null){return null;}
         V renVal = get(key);
-        if (renVal != null){
-            this.root = removeHelper(key, root);
-            this.size -= 1;
-        }
+        if (renVal == null){return null;};
+
+        this.root = removeHelper(key, root, null); // no need to check value
+        this.size -= 1;
         return renVal;
     }
 
@@ -188,7 +191,14 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      **/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+
+        if (value == null || key == null){ return null;}
+        V renVal = get(key);
+        if (!renVal.equals(value)){ return null;}
+
+        this.root = removeHelper(key, root, value); // no need to check value
+        this.size -= 1;
+        return renVal;
     }
 
     /**
@@ -218,6 +228,6 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return this.keySet().iterator();
     }
 }
