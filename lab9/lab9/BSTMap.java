@@ -162,7 +162,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
             Node successor = findMin(p.right);
             Node oriNodeToDelete = p;
             // delete the original successor
-            removeHelper(successor.key, p.right, value); //TODO test if same as deleteMin()
+            p.right = removeHelper(successor.key, p.right, value); //TODO test if same as deleteMin()
             p = successor; //Replace p with successor. But the origin Node still holds its right/left subtrees which need to be transferred to new p(the successor)
             p.left = oriNodeToDelete.left;
             p.right = oriNodeToDelete.right;

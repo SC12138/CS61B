@@ -98,7 +98,7 @@ public class TestBSTMap {
 
         assertEquals(5, b.size());
         int sizeMax = b.size();
-        for (int i = 3; i>2; i--){
+        for (int i = 5; i>4; i--){
             Integer remVal = b.remove("hi"+i);
             assertEquals(1 + i, (int)remVal);
             remVal = b.get("hi"+i);
@@ -125,8 +125,45 @@ public class TestBSTMap {
             assertEquals(false, b.containsKey("hi"+i));
         }
         assertEquals(322, b.size());
+    }
+    @Test
+    public void testRemoveThreeCases() {
+        BSTMap<String,String> q = new BSTMap<String,String>();
+        q.put("c","a");
+        q.put("b","a");
+        q.put("a","a");
+        q.put("d","a");
+        q.put("e","a");                         // a b c d e
+        assertTrue(null != q.remove("e"));      // a b c d
+        assertTrue(q.containsKey("a"));
+        assertTrue(q.containsKey("b"));
+        assertTrue(q.containsKey("c"));
+        assertTrue(q.containsKey("d"));
+        assertTrue(null != q.remove("c"));      // a b d
+        assertTrue(q.containsKey("a"));
+        assertTrue(q.containsKey("b"));
+        assertTrue(q.containsKey("d"));
+        q.put("f","a");                         // a b d f
+        assertTrue(null != q.remove("d"));      // a b f
+        assertTrue(q.containsKey("a"));
+        assertTrue(q.containsKey("b"));
+        assertTrue(q.containsKey("f"));
+    }
 
-
+    @Test
+    public void testRemoveRoot() {
+        BSTMap<String,String> q = new BSTMap<String,String>();
+        q.put("c","a");
+        q.put("b","a");
+        q.put("a","a");
+        q.put("d","a");
+        q.put("e","a"); // a b c d e
+        assertTrue(null != q.remove("c"));
+        assertFalse(q.containsKey("c"));
+        assertTrue(q.containsKey("a"));
+        assertTrue(q.containsKey("b"));
+        assertTrue(q.containsKey("d"));
+        assertTrue(q.containsKey("e"));
     }
 
     public static void main(String[] args) {
