@@ -16,8 +16,8 @@ public class PercolationStats {
         numOfExperi = T;
         fracToParco = new double[numOfExperi];
         for (int i=0; i<T; i++){ // perform T experiments
-            //Percolation p = pf.make(size);
-            Percolation p = new Percolation(size);
+            Percolation p = pf.make(size);
+            //Percolation p = new Percolation(size);
             // construct an index list
             List<Integer> indexes = new ArrayList<>(size * size);
             int unopened = size * size; //
@@ -61,9 +61,12 @@ public class PercolationStats {
         return (this.mean() + (1.96*this.stddev())/Math.sqrt(numOfExperi));
     }
 
+    /*
     public static void main(String[] args){
         PercolationStats pS = new PercolationStats(20, 30, null);
         System.out.println(pS.mean());
         System.out.println(pS.stddev());
     }
+
+     */
 }
