@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
     private boolean[][] open;
     private WeightedQuickUnionUF union;
+    private WeightedQuickUnionUF unionFull;
     private int FULL;
     private int size;
     private int LOWERBOUND;
@@ -13,7 +14,8 @@ public class Percolation {
         if (N < 0){
             throw new IllegalArgumentException("N can not be negative");
         }
-        union = new WeightedQuickUnionUF(N*N+2); //N*N refers to water, N*N+1 refers to lower bound
+        union = new WeightedQuickUnionUF(N*N+2); //N*N refers to water , N*N+1 refers to lower bound
+        unionFull = new WeightedQuickUnionUF(N*N+1); // Only N*N refers to water
         open = new boolean[N][N];
         size = N;
         FULL = N*N;
@@ -43,19 +45,24 @@ public class Percolation {
         // connect with sites nearby
         if(row>0 && isOpen(row-1, col)){ // up
             union.union(siteIndex, xyToInt(row-1, col));
+            unionFull.union(siteIndex, xyToInt(row-1, col));
         }
         if(row<size-1 && isOpen(row+1, col)){ // down
             union.union(siteIndex, xyToInt(row+1, col));
+            unionFull.union(siteIndex, xyToInt(row+1, col));
         }
         if(col>0 && isOpen(row, col-1)){ //left
             union.union(siteIndex, xyToInt(row, col-1));
+            unionFull.union(siteIndex, xyToInt(row, col-1));
         }
         if(col<size-1 && isOpen(row, col+1)) { //right
             union.union(siteIndex, xyToInt(row, col+1));
+            unionFull.union(siteIndex, xyToInt(row, col+1));
         }
         // if site is on the upper bound
         if (row == 0){
             union.union(siteIndex, FULL);
+            unionFull.union(siteIndex, FULL);
         }
         // if site is on the lower bound
         if (row == size-1){
@@ -72,7 +79,7 @@ public class Percolation {
 
     public boolean isFull(int row, int col) {  // is the site (row, col) full?
         int siteIndex = xyToInt(row, col);
-        return union.connected(siteIndex, FULL);
+        return unionFull.connected(siteIndex, FULL);
     }
 
 

@@ -10,6 +10,7 @@ public class PercolationStats {
     private int numOfExperi;
     private int size;
 
+    /*
     public PercolationStats(int N, int T, PercolationFactory pf) {   // perform T independent experiments on an N-by-N grid
         if (N<=0 || T <=0) {throw new IllegalArgumentException("N and T should be positive");}
         size = N;
@@ -41,7 +42,33 @@ public class PercolationStats {
             }
         }
     }
+    */
 
+    public PercolationStats(int N, int T, PercolationFactory pf) {   // perform T independent experiments on an N-by-N grid
+        if (N<=0 || T <=0) {throw new IllegalArgumentException("N and T should be positive");}
+        size = N;
+        numOfExperi = T;
+        fracToParco = new double[numOfExperi];
+        for (int i=0; i<T; i++){ // perform T experiments
+            Percolation p = pf.make(size);
+            //Percolation p = new Percolation(size);
+            int openSite = 0;
+            // uniformly get random index from the list
+            while (true){
+                int temCol = (int)StdRandom.uniform(size);
+                int temRow = (int)StdRandom.uniform(size);
+                // open the tile
+                if (!p.isOpen(temRow, temCol)){
+                    p.open(temRow, temCol);
+                    openSite += 1;
+                    if (p.percolates()){
+                        this.fracToParco[i] = (openSite)/Math.pow(this.size, 2);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
 
     public double mean() {                                          // sample mean of percolation threshold
@@ -61,6 +88,7 @@ public class PercolationStats {
         return (this.mean() + (1.96*this.stddev())/Math.sqrt(numOfExperi));
     }
 
+
     /*
     public static void main(String[] args){
         PercolationStats pS = new PercolationStats(20, 30, null);
@@ -69,4 +97,7 @@ public class PercolationStats {
     }
 
      */
+
+
+
 }
