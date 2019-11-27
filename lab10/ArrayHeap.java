@@ -27,24 +27,22 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the left of the node at i.
      */
     private static int leftIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return 2*i;
+
     }
 
     /**
      * Returns the index of the node to the right of the node at i.
      */
     private static int rightIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return 2*i+1;
     }
 
     /**
      * Returns the index of the node that is the parent of the node at i.
      */
     private static int parentIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return i/2;
     }
 
     /**
@@ -105,10 +103,16 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
-        validateSinkSwimArg(index);
-
-        /** TODO: Your code here. */
-        return;
+        validateSinkSwimArg(index); // 0 < index <= size
+        int parInd = ArrayHeap.parentIndex(index);
+        Node par = this.getNode(parInd);
+        if (par == null) {
+            System.out.println("No parent node.");
+            return; } // No parent;
+        if (contents[index].myPriority < par.myPriority){ // smaller than parent
+            swap(index, parInd);
+            swim(parInd);
+        }
     }
 
     /**
@@ -117,9 +121,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void sink(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-
-        /** TODO: Your code here. */
-        return;
+        int leftInd = leftIndex(index);
+        int rightInd = rightIndex(index);
+        if (getNode(leftInd)==null && getNode(rightInd)==null){
+            System.out.println("No valid child node");
+            return;
+        }
+        int swapInd = min(leftInd, rightInd);
+        if (getNode(index).myPriority > getNode(swapInd).myPriority){
+            swap(index,swapInd);
+            sink(swapInd);
+        }
     }
 
     /**
@@ -132,8 +144,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         if (size + 1 == contents.length) {
             resize(contents.length * 2);
         }
-
-        /* TODO: Your code here! */
+        if (getNode(size+1)!= null){
+            throw new RuntimeException("No place to insert new node");
+        }
+        contents[size+1] = new Node(item, priority); // Add to the most left empty leaf node
+        size += 1;
+        swim(size);
     }
 
     /**
@@ -142,8 +158,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T peek() {
-        /* TODO: Your code here! */
-        return null;
+        if (size == 0){ return null; }
+        return getNode(1).item();
     }
 
     /**
@@ -157,8 +173,20 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T removeMin() {
-        /* TODO: Your code here! */
-        return null;
+        if (size()== 0){
+            return null;
+        }
+        Node minNode = getNode(1);
+        if (size == 1){
+            contents[1] = null;
+            size -= 1;
+            return minNode.item();
+        }
+        swap(1, size); // swap the first and the last node
+        contents[size] = null;
+        size -= 1;
+        sink(1);
+        return minNode.item();
     }
 
     /**
@@ -180,8 +208,24 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        /* TODO: Your code here! */
-        return;
+        int itemIndex = 0;
+        for (int i=1; i<=size; i+=1){
+            if (contents[i].item().equals(item)){
+                itemIndex = i;
+                break;
+            }
+        }
+        if (itemIndex == 0){
+            System.out.println("Item not in this Heap");
+            return;
+        }
+        double oldPriority = getNode(itemIndex).myPriority;
+        getNode(itemIndex).myPriority = priority;
+        if (oldPriority < priority){
+            sink(itemIndex);
+            return;
+        }
+        swim(itemIndex);
     }
 
     /**

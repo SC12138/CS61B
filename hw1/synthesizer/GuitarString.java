@@ -6,7 +6,7 @@ public class GuitarString {
      * the values cannot be changed at runtime. We'll discuss this and other topics
      * in lecture on Friday. */
     private static final int SR = 44100;      // Sampling Rate
-    private static final double DECAY = .996; // energy decay factor
+    private static final double DECAY = 0.996; // energy decay factor
 
     /* Buffer for storing sound data. */
     private BoundedQueue<Double> buffer;
@@ -49,6 +49,7 @@ public class GuitarString {
         //       the average of the two multiplied by the DECAY factor.
         //       Do not call StdAudio.play().
         double newSample = buffer.dequeue();
+        //newSample *= DECAY;
         newSample = (newSample+buffer.peek())*DECAY/2;
         buffer.enqueue(newSample);
     }

@@ -10,7 +10,8 @@ public class PercolationStats {
     private int numOfExperi;
     private int size;
 
-    /*
+    /* Use an ArrayList to generate random index number. Speed is slow
+
     public PercolationStats(int N, int T, PercolationFactory pf) {   // perform T independent experiments on an N-by-N grid
         if (N<=0 || T <=0) {throw new IllegalArgumentException("N and T should be positive");}
         size = N;
