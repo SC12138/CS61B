@@ -12,7 +12,7 @@ public class MazeDepthFirstPaths extends MazeExplorer {
     private int s;
     private int t;
     private boolean targetFound = false;
-    private Maze maze;
+    //private Maze maze;
 
 
     public MazeDepthFirstPaths(Maze m, int sourceX, int sourceY, int targetX, int targetY) {

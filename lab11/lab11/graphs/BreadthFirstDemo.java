@@ -11,6 +11,8 @@ public class BreadthFirstDemo {
 
         int startX = 1;
         int startY = 1;
+        //int targetX = 1;
+        //int targetY = 1;
         int targetX = maze.N();
         int targetY = maze.N();
 
