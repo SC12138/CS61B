@@ -81,7 +81,7 @@ public class Board implements WorldState{
         int dis = 0;
         for (int i=0; i<size; i++){
             for (int j=0; j<size; j++){
-                if (board[i][j]!=o.tileAt(i, j)){
+                if (board[i][j]!=o.tileAt(i, j) && board[i][j]!=0){
                     dis += 1;
                 }
             }
@@ -103,7 +103,7 @@ public class Board implements WorldState{
                 oIndex[o.tileAt(i, j)] = i*size + j;
             }
         }
-        for (int i=0; i<size*size; i++){
+        for (int i=1; i<size*size; i++){
             int absDis = Math.abs(boardIndex[i] - oIndex[i]);
             dis += absDis/size + absDis%size;
         }
@@ -117,9 +117,15 @@ public class Board implements WorldState{
 
     @Override
     public boolean equals(Object y){
+        if (this == y) {
+            return true;
+        }
+        if (y == null || getClass() != y.getClass()) {
+            return false;
+        }
         Board o = (Board)y;
          if (this.size != o.size()){
-             throw new RuntimeException("Two tiles must be same size");
+             return false;
          }
 
          for (int i=0; i<size; i++){ // traverse the whole tile
@@ -146,5 +152,10 @@ public class Board implements WorldState{
         }
         s.append("\n");
         return s.toString();
+    }
+
+    @Override
+    public int hashCode(){
+        return 0; //TODO
     }
 }

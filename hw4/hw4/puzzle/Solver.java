@@ -92,6 +92,8 @@ public class Solver {
             route.addFirst(temp);
             temp = temp.getPrevNode();
         }
+        route.addFirst(temp);
+
     }
 
     public int moves(){
