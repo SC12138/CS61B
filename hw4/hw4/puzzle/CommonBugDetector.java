@@ -1,5 +1,7 @@
 package hw4.puzzle;
 
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -81,6 +83,9 @@ public class CommonBugDetector {
         Solver s3 = new Solver(aep);
         System.out.println("TODO: Print out the number of total things ever"
                            + " enqueued in your MinPQ and compare to the comments.");
+        for (WorldState ws : s3.solution()) {
+            StdOut.println(ws);
+        }
         // if you print out the total number of items enqueued by s3
         // it should be approximately 25, not approximately 50.
     }

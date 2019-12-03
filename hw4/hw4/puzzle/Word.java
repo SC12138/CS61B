@@ -82,6 +82,7 @@ public class Word implements WorldState {
         return neighbs;
     }
 
+
     @Override
     public int estimatedDistanceToGoal() {
         return editDistance(this.word, goal);
