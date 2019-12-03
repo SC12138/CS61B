@@ -73,7 +73,8 @@ public class Board implements WorldState{
     }
 
 
-    public int hamming(Board o){
+    public int hamming(){
+        Board o = new Board(t);
         if (this.size != o.size()){
             throw new RuntimeException("Two tiles must be same size");
         }
@@ -88,8 +89,9 @@ public class Board implements WorldState{
         return dis;
     }
 
-    public int manhattan(Board o){
+    public int manhattan(){
         int dis = 0;
+        Board o = new Board(t);
         if (this.size != o.size()){
             throw new RuntimeException("Two tiles must be same size");
         }
@@ -110,7 +112,7 @@ public class Board implements WorldState{
 
     @Override
     public int estimatedDistanceToGoal(){
-        return manhattan(new Board(t));
+        return manhattan();
     }
 
     @Override
