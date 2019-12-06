@@ -103,9 +103,21 @@ public class Board implements WorldState{
                 oIndex[o.tileAt(i, j)] = i*size + j;
             }
         }
+        /*
+        for (int i:boardIndex){
+            System.out.print(i);
+        }
+        System.out.println();
+        for (int i:oIndex){
+            System.out.print(i);
+        }
+        System.out.println();
+
+         */
+
         for (int i=1; i<size*size; i++){
-            int absDis = Math.abs(boardIndex[i] - oIndex[i]);
-            dis += absDis/size + absDis%size;
+            dis += Math.abs(boardIndex[i]/size - oIndex[i]/size) +
+                    Math.abs(boardIndex[i]%size - oIndex[i]%size);
         }
         return dis;
     }

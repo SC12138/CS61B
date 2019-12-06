@@ -1,4 +1,9 @@
+import edu.princeton.cs.algs4.Merge;
 import edu.princeton.cs.algs4.Queue;
+import org.junit.Test;
+
+import javax.swing.*;
+import java.util.Iterator;
 
 public class MergeSort {
     /**
@@ -34,8 +39,13 @@ public class MergeSort {
     /** Returns a queue of queues that each contain one item from items. */
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
-        // Your code here!
-        return null;
+        Queue<Queue<Item>> singleItemQueue = new Queue<Queue<Item>>();
+        for (Item i: items){
+            Queue<Item> itemQueue = new Queue<Item>();
+            itemQueue.enqueue(i);
+            singleItemQueue.enqueue(itemQueue);
+        }
+        return singleItemQueue;
     }
 
     /**
@@ -53,14 +63,111 @@ public class MergeSort {
      */
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
-        // Your code here!
-        return null;
+        if (q1==null || q2==null){ throw new RuntimeException("arg can't be null");}
+        if (q1.size()==0){
+            return q2;
+        }
+        if (q2.size()==0){
+            return q1;
+        }
+        // both q1 and q2 are not empty
+        Queue<Item> sortedQ = new Queue<>();
+        Iterator<Item> i1 = q1.iterator();
+        Iterator<Item> i2 = q2.iterator();
+        Item t1 = i1.next();
+        Item t2 = i2.next();
+
+        while(t1!=null || t2!=null){
+            Item itemadd = MergeSort.compare(t1, t2);
+            sortedQ.enqueue(itemadd);
+            if (itemadd.equals(t1)){
+                if (i1.hasNext()){
+                    t1=i1.next();
+                }
+                else{
+                    t1=null;
+                }
+            }
+            else {
+                if (i2.hasNext()){
+                    t2=i2.next();
+                }
+                else{
+                    t2=null;
+                }
+            }
+        }
+        return sortedQ;
+    }
+
+    private static <Item extends Comparable> Item compare(Item a, Item b){
+        if (a==null){
+            return b;
+        }
+        else if(b==null){
+            return a;
+        }
+
+        if (a.compareTo(b) <= 0){
+            return a;
+        }
+        return b;
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        Queue<Queue<Item>> qsi = makeSingleItemQueues(items);
+        return mergeRec(qsi);
+    }
+
+    private static <Item extends Comparable> Queue<Item> mergeRec(Queue<Queue<Item>> qsi){
+        if (qsi.size()==1){
+            return qsi.dequeue();  // if queue of single item queue
+        }
+        int half1 = qsi.size()/2;
+        int f=0;
+        Queue<Queue<Item>> front = new Queue<>();
+        Queue<Queue<Item>> back = new Queue<>();
+
+        for (Queue<Item> q:qsi){
+            if (f<half1){
+                front.enqueue(q);
+            }
+            else{
+                back.enqueue(q);
+            }
+            f+=1;
+        }
+        return mergeSortedQueues(mergeRec(front), mergeRec(back));
+
+    }
+
+
+
+    public static void main(String[] args){
+        Queue<String> wordQ = new Queue<>();
+        wordQ.enqueue("uij");
+        wordQ.enqueue("rdr");
+        wordQ.enqueue("egg");
+        wordQ.enqueue("apple");
+        wordQ.enqueue("sdc");
+        wordQ.enqueue("vivo");
+        wordQ.enqueue("oppo");
+        wordQ.enqueue("sdc");
+
+
+
+        Queue<String> wordQ2 = new Queue<>();
+        wordQ2.enqueue("sdc");
+        wordQ2.enqueue("uij");
+        wordQ2.enqueue("dig");
+        wordQ2.enqueue("rdr");
+
+        Queue<String> qsi = MergeSort.mergeSort(wordQ);
+        for (String s: qsi){
+            System.out.println(s);
+        }
+
     }
 }

@@ -47,13 +47,60 @@ public class QuickSort {
     private static <Item extends Comparable> void partition(
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
-        // Your code here!
+
+        for (Item i: unsorted){
+            if (i.compareTo(pivot)<0){
+                less.enqueue(i);
+            }
+            else if(i.compareTo(pivot)==0){
+                equal.enqueue(i);
+            }
+            else{
+                greater.enqueue(i);
+            }
+        }
+
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        if (items==null){
+            throw new RuntimeException("Invalid arg");
+        }
+        return quickSortRec(items);
+
     }
+
+    private static <Item extends Comparable> Queue<Item> quickSortRec(Queue<Item> items){
+        if (items.size()<=1){
+            return items;
+        }
+        Queue<Item> less = new Queue<>();
+        Queue<Item> equal = new Queue<>();
+        Queue<Item> larger = new Queue<>();
+        Item p = getRandomItem(items);
+        partition(items, p, less, equal, larger);
+        Queue<Item> temp = catenate(quickSortRec(less), equal);
+        temp = catenate(temp, quickSortRec(larger));
+        return temp;
+    }
+
+    public static void main(String[] args){
+        Queue<String> wordQ = new Queue<>();
+        wordQ.enqueue("uij");
+        wordQ.enqueue("rdr");
+        wordQ.enqueue("egg");
+        wordQ.enqueue("apple");
+        wordQ.enqueue("sdc");
+        wordQ.enqueue("vivo");
+        wordQ.enqueue("oppo");
+        wordQ.enqueue("sdc");
+
+        Queue<String> qsi = QuickSort.quickSort(wordQ);
+        for (String s: qsi){
+            System.out.println(s);
+        }
+    }
+
 }
