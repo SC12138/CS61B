@@ -40,6 +40,9 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         Queue<Queue<Item>> singleItemQueue = new Queue<Queue<Item>>();
+        if (items.isEmpty()){
+            return singleItemQueue;
+        }
         for (Item i: items){
             Queue<Item> itemQueue = new Queue<Item>();
             itemQueue.enqueue(i);
@@ -117,6 +120,9 @@ public class MergeSort {
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
+        if (items.isEmpty()){
+            return items;
+        }
         Queue<Queue<Item>> qsi = makeSingleItemQueues(items);
         return mergeRec(qsi);
     }
@@ -159,12 +165,9 @@ public class MergeSort {
 
 
         Queue<String> wordQ2 = new Queue<>();
-        wordQ2.enqueue("sdc");
-        wordQ2.enqueue("uij");
-        wordQ2.enqueue("dig");
-        wordQ2.enqueue("rdr");
 
-        Queue<String> qsi = MergeSort.mergeSort(wordQ);
+
+        Queue<String> qsi = MergeSort.mergeSort(wordQ2);
         for (String s: qsi){
             System.out.println(s);
         }
