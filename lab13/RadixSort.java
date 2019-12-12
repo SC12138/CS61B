@@ -1,3 +1,12 @@
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+import java.awt.image.Raster;
+import java.time.chrono.JapaneseEra;
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
  * Class for doing Radix sort
  *
@@ -16,8 +25,19 @@ public class RadixSort {
      * @return String[] the sorted array
      */
     public static String[] sort(String[] asciis) {
-        // TODO: Implement LSD Sort
-        return null;
+        int maxLen = 0;
+        for (String s: asciis){
+            if (s.length()>maxLen){
+                maxLen = s.length();
+            }
+        }
+        String[] sort = new String[asciis.length];
+        System.arraycopy(asciis, 0, sort,0, asciis.length);
+        for (int i = maxLen-1 ; i>=0;i-=1){
+            RadixSort.sortHelperLSD(sort, i);
+        }
+        return sort;
+
     }
 
     /**
@@ -27,8 +47,49 @@ public class RadixSort {
      * @param index The position to sort the Strings on.
      */
     private static void sortHelperLSD(String[] asciis, int index) {
-        // Optional LSD helper method for required LSD radix sort
-        return;
+
+        for (int i=0; i<asciis.length/2; i++){
+            String temp = asciis[i];
+            asciis[i] = asciis[asciis.length - i - 1];
+            asciis[asciis.length - i -1] = temp;
+        }
+
+        int[] counts = new int[257]; // last index for String that is shorter
+        int[] posit = new int[257];
+        String[] sorted = new String[asciis.length];
+
+        for (String s: asciis){
+            if (s.length() < index+1){
+                counts[256]+=1;
+            }
+            else{
+                counts[(int)s.charAt(index)] += 1;
+            }
+        }
+        /** construct position array */
+        int pos = 0;
+        for (int i=0; i<counts.length; i+=1){
+            posit[i] = pos;
+            pos += counts[i];
+        }
+        for (String s: asciis){
+            if (s.length() < index+1){
+                sorted[posit[256]] = s;
+                posit[256] += 1;
+            }
+            else{
+                sorted[posit[(int)s.charAt(index)]] = s;
+                posit[(int)s.charAt(index)] += 1;
+            }
+        }
+        System.arraycopy(sorted, sorted.length - counts[256], asciis, 0, counts[256]);
+        System.arraycopy(sorted, 0, asciis, counts[256], sorted.length - counts[256]);
+
+        for (int i=0; i<asciis.length/2; i++){
+            String temp = asciis[i];
+            asciis[i] = asciis[asciis.length - i - 1];
+            asciis[asciis.length - i -1] = temp;
+        }
     }
 
     /**
@@ -44,5 +105,18 @@ public class RadixSort {
     private static void sortHelperMSD(String[] asciis, int start, int end, int index) {
         // Optional MSD helper method for optional MSD radix sort
         return;
+    }
+
+    @Test
+    public void testRadix(){
+        String[] ts = new String[]{"abc", "cde", "abe", "efgh", "f", " ",""};
+        RadixSort.sortHelperLSD(ts, 0);
+        String[] expected = new String[]{"f", "efgh", "cde", "abc", "abe", " ", ""};
+        assertArrayEquals(expected, ts);
+
+        ts = new String[]{"abe", "cde", "abc", "efgh", "f", " ",""};
+        expected = new String[]{"f", "efgh", "cde", "abe", "abc", " ", ""};
+        String[] result = RadixSort.sort(ts);
+        assertArrayEquals(expected, result);
     }
 }

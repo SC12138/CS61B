@@ -1,3 +1,10 @@
+import javafx.collections.ArrayChangeListener;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+
 /**
  * Class with 2 ways of doing Counting sort, one naive way and one "better" way
  *
@@ -15,6 +22,9 @@ public class CountingSort {
      */
     public static int[] naiveCountingSort(int[] arr) {
         // find max
+        if (arr.length==0){
+            return arr;
+        }
         int max = Integer.MIN_VALUE;
         for (int i : arr) {
             max = max > i ? max : i;
@@ -54,7 +64,7 @@ public class CountingSort {
         }
 
         // return the sorted array
-        return sorted;
+        return sorted2;
     }
 
     /**
@@ -66,7 +76,32 @@ public class CountingSort {
      * @param arr int array that will be sorted
      */
     public static int[] betterCountingSort(int[] arr) {
-        // TODO make counting sort work with arrays containing negative numbers.
-        return null;
+        List<Integer> pos = new ArrayList<>();
+        List<Integer> flipNeg = new ArrayList<>();
+        for (int i:arr){
+            if (i>=0){
+                pos.add(i);
+            }
+            else{
+                flipNeg.add(i* (-1));
+            }
+        }
+        int[] arrayPos = pos.stream().mapToInt(i->i.intValue()).toArray();
+        int[] arrayFlipNeg = flipNeg.stream().mapToInt(i->i.intValue()).toArray();
+        /** Sort two arrays respectively */
+        int[] sortPos = CountingSort.naiveCountingSort(arrayPos);
+        int[] sortFlipNeg = CountingSort.naiveCountingSort(arrayFlipNeg);
+        /** Flip back and concatenate */
+        int[] sorted = new int[arr.length];
+        int posit = 0;
+        for (int i=sortFlipNeg.length-1; i>=0; i-=1){
+            sorted[posit] = sortFlipNeg[i]*(-1);
+            posit += 1;
+        }
+        for (int i:sortPos){
+            sorted[posit] = i;
+            posit += 1;
+        }
+        return sorted;
     }
 }
